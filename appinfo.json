@@ -1,0 +1,35 @@
+{
+  "uuid": "54813880-92a0-4e37-8831-e86a3bdd93b1",
+  "shortName": "tal",
+  "longName": "tal",
+  "companyName": "MakeAwesomeHappen",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": ["aplite", "basalt", "chalk"],
+  "enableMultiJS": true,
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+      "media": [
+          {
+              "type": "bitmap",
+              "name": "INCREMENT_BITMAP",
+              "file": "increment.png"
+          },
+          {
+              "type": "bitmap",
+              "name": "DECREMENT_BITMAP",
+              "file": "decrement.png"
+          },
+          {
+              "type": "bitmap",
+              "name": "MODE_BITMAP",
+              "file": "mode.png"
+          }
+    ]
+  }
+}
