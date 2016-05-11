@@ -6,26 +6,31 @@ static ActionBarLayer *s_action_bar;
 static TextLayer *s_text_layer;
 static GBitmap *s_increment_bitmap, *s_decrement_bitmap, *s_mode_bitmap;
 
-static char* mode = "normal";
+enum mode_t {
+  NORMAL = 1
+};
+
+static mode_t mode = NORMAL;
 
 static int counter = 0;
-static char[16] counter_s;
+static char counter_s[16];
+
 
 void increment_normal() {
   counter += 1;
-  sprintf(counter_s, "%d", counter);
+  snprintf(counter_s, 16, "%d", counter);
   text_layer_set_text(s_text_layer, counter_s);
 }
 
 void decrement_normal() {
   counter -= 1;
-  sprintf(counter_s, "%d", counter);
+  snprintf(counter_s, 16, "%d", counter);
   text_layer_set_text(s_text_layer, counter_s);
 }
 
 void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
   switch (mode) {
-  case "normal": {
+  case NORMAL: {
     decrement_normal();
     break;
   }
@@ -35,7 +40,7 @@ void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
 }
 void up_single_click_handler(ClickRecognizerRef recognizer, void *context) {
   switch (mode) {
-  case "normal": {
+  case NORMAL: {
     increment_normal();
     break;
   }
@@ -63,8 +68,10 @@ static void window_load(Window *window) {
   action_bar_layer_set_icon(s_action_bar, BUTTON_ID_SELECT, s_mode_bitmap);
   action_bar_layer_add_to_window(s_action_bar, window);
 
-  s_text_layer = text_layer_create(GRect(0, 0, 144, 40));
+  s_text_layer = text_layer_create(GRect(0, 0, 50, 50));
   text_layer_set_text(s_text_layer, counter_s);
+
+  layer_add_child(window_layer, text_layer_get_layer(s_text_layer));
 }
 
 static void window_unload(Window *window) {
@@ -76,11 +83,10 @@ static void window_unload(Window *window) {
 
 static void init(void) {
   window = window_create();
-  /* window_set_click_config_provider(window, click_config_provider); */
   window_set_window_handlers(window, (WindowHandlers) {
       .load = window_load,
-        .unload = window_unload,
-        });
+      .unload = window_unload,
+  });
   const bool animated = true;
   window_stack_push(window, animated);
   window_layer = window_get_root_layer(window);
